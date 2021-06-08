@@ -23,7 +23,7 @@ public class EnergyAddictMod implements PostInitializeSubscriber {
     private static final String DESCRIPTION = "This mod guarantees that at least one relic in every boss chest will be an energy relic!";
 
     //Badge
-    private static final String BADGE_IMG = "betterLaidPlans/img/ModBadge.png";
+    private static final String BADGE_IMG = "energyAddict/img/ModBadge.png";
 
     public static List<String> energyRelics = new ArrayList<>();
 
