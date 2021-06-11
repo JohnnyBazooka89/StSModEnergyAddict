@@ -32,7 +32,7 @@ public class EnergyAddictMod implements PostInitializeSubscriber {
     }
 
     public static void initialize() {
-        logger.info("======================= ENERGY ADDICT INIT =======================");
+        logger.info("======================== ENERGY ADDICT INIT ========================");
 
         new EnergyAddictMod();
 
