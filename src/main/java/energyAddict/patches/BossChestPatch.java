@@ -35,6 +35,9 @@ public class BossChestPatch {
         String randomEnergyRelicId = EnergyAddictMod.energyRelics.get(AbstractDungeon.relicRng.random(EnergyAddictMod.energyRelics.size() - 1));
         AbstractRelic result = RelicLibrary.getRelic(randomEnergyRelicId).makeCopy();
         AbstractDungeon.bossRelicPool.removeIf(relicId -> relicId.equals(randomEnergyRelicId));
+        if (!result.canSpawn()) {
+            return getFromEnergyRelicsList();
+        }
         return result;
     }
 
