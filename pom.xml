@@ -5,7 +5,7 @@
 
     <groupId>StSMod</groupId>
     <artifactId>StSModEnergyAddict</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <packaging>jar</packaging>
     <name>StSModEnergyAddict</name>
     <description>This mod guarantees that at least one relic in every boss chest will be an energy relic!</description>
