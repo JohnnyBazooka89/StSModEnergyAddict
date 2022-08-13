@@ -4,7 +4,6 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
-import com.megacrit.cardcrawl.relics.RedCirclet;
 import com.megacrit.cardcrawl.rewards.chests.BossChest;
 import energyAddict.EnergyAddictMod;
 import javassist.CannotCompileException;
@@ -20,24 +19,24 @@ public class BossChestPatch {
             public void edit(MethodCall m) throws CannotCompileException {
                 if (m.getMethodName().equals("returnRandomRelic")) {
                     m.replace(
-                            "if (i==0) { $_ = " + BossChestPatch.class.getName() + ".getFromEnergyRelicsList(); } else { $_ = $proceed($$); };"
+                            AbstractRelic.class.getName() + " energyRelic = " + BossChestPatch.class.getName() + ".getFromEnergyRelicsList(1000); if (i==0 && energyRelic != null) { $_ = energyRelic; } else { $_ = $proceed($$); };"
                     );
                 }
             }
         };
     }
 
-    public static AbstractRelic getFromEnergyRelicsList() {
+    public static AbstractRelic getFromEnergyRelicsList(int tries) {
         EnergyAddictMod.energyRelics.retainAll(AbstractDungeon.bossRelicPool);
-        if (EnergyAddictMod.energyRelics.size() == 0) {
-            return new RedCirclet();
+        if (EnergyAddictMod.energyRelics.size() == 0 || tries == 0) {
+            return null;
         }
         String randomEnergyRelicId = EnergyAddictMod.energyRelics.get(AbstractDungeon.relicRng.random(EnergyAddictMod.energyRelics.size() - 1));
         AbstractRelic result = RelicLibrary.getRelic(randomEnergyRelicId).makeCopy();
-        AbstractDungeon.bossRelicPool.removeIf(relicId -> relicId.equals(randomEnergyRelicId));
         if (!result.canSpawn()) {
-            return getFromEnergyRelicsList();
+            return getFromEnergyRelicsList(tries - 1);
         }
+        AbstractDungeon.bossRelicPool.removeIf(relicId -> relicId.equals(randomEnergyRelicId));
         return result;
     }
 
